@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { 
   TrendingUp, 
-  TrendingDown, 
   DollarSign, 
   ShoppingCart, 
   Package,

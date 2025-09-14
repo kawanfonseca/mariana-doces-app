@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { Calendar, Plus, Save, Upload } from 'lucide-react';
+import { Calendar, Save, Upload } from 'lucide-react';
 import { productsService } from '@/services/products';
 import { ordersService } from '@/services/orders';
 import { Product, CreateSaleOrderRequest } from '@/types';

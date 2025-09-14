@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Save, Percent, Clock, DollarSign } from 'lucide-react';
+import { Percent, Clock, DollarSign } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { api } from '@/services/api';
 import { Config } from '@/types';
-import { formatCurrency } from '@/utils/format';
 import { useAuthStore } from '@/store/auth';
 
 export function Settings() {
   const [config, setConfig] = useState<Config>({});
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [, setSaving] = useState(false);
   const { user } = useAuthStore();
 
   const isAdmin = user?.role === 'ADMIN';

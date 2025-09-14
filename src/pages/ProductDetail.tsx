@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Edit, Calculator } from 'lucide-react';
 import { productsService } from '@/services/products';
 import { Product, ProductRecipe, PricingPreview } from '@/types';
-import { formatCurrency, formatUnit } from '@/utils/format';
+import { formatCurrency } from '@/utils/format';
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();

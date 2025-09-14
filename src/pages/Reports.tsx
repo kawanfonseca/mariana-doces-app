@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Calendar, Download, TrendingUp, TrendingDown } from 'lucide-react';
+import { Download, TrendingUp } from 'lucide-react';
 import { api } from '@/services/api';
 import { ReportSummary, ProductReport } from '@/types';
-import { formatCurrency, formatDateInput, formatChannelName } from '@/utils/format';
+import { formatCurrency, formatDateInput } from '@/utils/format';
 
 export function Reports() {
   const [summary, setSummary] = useState<ReportSummary | null>(null);
