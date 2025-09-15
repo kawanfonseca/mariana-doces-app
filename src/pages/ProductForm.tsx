@@ -21,7 +21,7 @@ export function ProductForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [product, setProduct] = useState<Product | null>(null);
+  const [, setProduct] = useState<Product | null>(null);
   
   const isEditing = Boolean(id);
   
@@ -30,7 +30,6 @@ export function ProductForm() {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<ProductForm>({
     resolver: zodResolver(productSchema),
     defaultValues: {

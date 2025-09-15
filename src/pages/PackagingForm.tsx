@@ -20,7 +20,7 @@ export function PackagingForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [packaging, setPackaging] = useState<Packaging | null>(null);
+  const [, setPackaging] = useState<Packaging | null>(null);
   
   const isEditing = Boolean(id);
   

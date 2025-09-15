@@ -22,7 +22,7 @@ export function IngredientForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [ingredient, setIngredient] = useState<Ingredient | null>(null);
+  const [, setIngredient] = useState<Ingredient | null>(null);
   
   const isEditing = Boolean(id);
   
