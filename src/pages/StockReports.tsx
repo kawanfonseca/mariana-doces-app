@@ -6,9 +6,7 @@ import {
   AlertTriangle, 
   DollarSign,
   Package,
-  BarChart3,
-  Calendar,
-  Filter
+  Calendar
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { ingredientsService } from '@/services/ingredients';
@@ -58,7 +56,7 @@ export function StockReports() {
   });
   const { user } = useAuthStore();
 
-  const isAdmin = user?.role === 'ADMIN';
+  const _isAdmin = user?.role === 'ADMIN';
 
   useEffect(() => {
     loadData();
@@ -128,7 +126,7 @@ export function StockReports() {
     });
   };
 
-  const generateMovementReport = () => {
+  const _generateMovementReport = () => {
     // TODO: Implementar quando a API de movimentações estiver disponível
     setMovementReport({
       totalMovements: 0,

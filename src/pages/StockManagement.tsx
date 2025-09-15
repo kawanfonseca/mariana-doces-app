@@ -13,11 +13,7 @@ import {
   Download,
   RefreshCw,
   Eye,
-  Edit,
-  Trash2,
-  Calendar,
   DollarSign,
-  BarChart3,
   Settings
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -56,7 +52,7 @@ interface InventoryStats {
 
 export function StockManagement() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [stockMovements, setStockMovements] = useState<StockMovement[]>([]);
+  const [, setStockMovements] = useState<StockMovement[]>([]);
   const [alerts, setAlerts] = useState<StockAlert[]>([]);
   const [stats, setStats] = useState<InventoryStats>({
     totalIngredients: 0,
@@ -94,7 +90,7 @@ export function StockManagement() {
     },
   });
 
-  const selectedType = watch('type');
+  const _selectedType = watch('type');
 
   useEffect(() => {
     loadData();
