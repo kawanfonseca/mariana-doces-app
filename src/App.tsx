@@ -13,6 +13,8 @@ import { Ingredients } from '@/pages/Ingredients';
 import { IngredientForm } from '@/pages/IngredientForm';
 import { PackagingPage } from '@/pages/Packaging';
 import { PackagingForm } from '@/pages/PackagingForm';
+import { ProductRecipe } from '@/pages/ProductRecipe';
+import { Inventory } from '@/pages/Inventory';
 import { Settings } from '@/pages/Settings';
 
 function App() {
@@ -45,6 +47,7 @@ function App() {
             <Route path="produtos/novo" element={<ProductForm />} />
             <Route path="produtos/:id" element={<ProductDetail />} />
             <Route path="produtos/:id/editar" element={<ProductForm />} />
+            <Route path="produtos/:id/receita" element={<ProductRecipe />} />
             <Route path="vendas" element={<DailySales />} />
             <Route path="relatorios" element={<Reports />} />
             <Route path="ingredientes" element={<Ingredients />} />
@@ -53,6 +56,7 @@ function App() {
             <Route path="embalagens" element={<PackagingPage />} />
             <Route path="embalagens/novo" element={<PackagingForm />} />
             <Route path="embalagens/:id/editar" element={<PackagingForm />} />
+            <Route path="estoque" element={<Inventory />} />
             <Route path="configuracoes" element={<Settings />} />
           </Route>
         </Routes>

@@ -2,7 +2,9 @@ import { api } from './api';
 import { 
   Ingredient, 
   CreateIngredientRequest, 
-  PaginatedResponse 
+  PaginatedResponse,
+  StockMovement,
+  CreateStockMovementRequest
 } from '@/types';
 
 export const ingredientsService = {
@@ -71,6 +73,41 @@ export const ingredientsService = {
     } catch (error: any) {
       if (error.response?.data?.error) {
         throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
+  },
+
+  // Stock Management
+  async getStockMovements(params?: { 
+    page?: number; 
+    limit?: number; 
+    ingredientId?: string;
+  }): Promise<PaginatedResponse<StockMovement>> {
+    try {
+      const response = await api.get('/ingredients/stock-movements', { params });
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
+  },
+
+  async createStockMovement(data: CreateStockMovementRequest): Promise<StockMovement> {
+    try {
+      const response = await api.post('/ingredients/stock-movements', data);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      } else if (error.response?.data?.details) {
+        const details = error.response.data.details;
+        if (Array.isArray(details) && details.length > 0) {
+          throw new Error(details[0].message || 'Parâmetros inválidos');
+        }
+        throw new Error('Parâmetros inválidos');
       }
       throw error;
     }

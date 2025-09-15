@@ -69,10 +69,16 @@ export function ProductDetail() {
           </div>
         </div>
         
-        <Link to={`/produtos/${id}/editar`} className="btn-primary">
-          <Edit className="w-4 h-4 mr-2" />
-          Editar
-        </Link>
+        <div className="flex space-x-2">
+          <Link to={`/produtos/${id}/receita`} className="btn-outline">
+            <Calculator className="w-4 h-4 mr-2" />
+            Receita
+          </Link>
+          <Link to={`/produtos/${id}/editar`} className="btn-primary">
+            <Edit className="w-4 h-4 mr-2" />
+            Editar
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

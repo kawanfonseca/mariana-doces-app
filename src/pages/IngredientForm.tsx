@@ -13,6 +13,8 @@ const ingredientSchema = z.object({
   unit: z.string().min(1, 'Unidade é obrigatória'),
   costPerUnit: z.number().min(0, 'Custo deve ser maior ou igual a zero'),
   supplier: z.string().optional(),
+  currentStock: z.number().min(0, 'Estoque atual deve ser maior ou igual a zero'),
+  minStock: z.number().min(0, 'Estoque mínimo deve ser maior ou igual a zero'),
 });
 
 type IngredientForm = z.infer<typeof ingredientSchema>;
@@ -38,6 +40,8 @@ export function IngredientForm() {
       unit: '',
       costPerUnit: 0,
       supplier: '',
+      currentStock: 0,
+      minStock: 0,
     },
   });
 
@@ -59,6 +63,8 @@ export function IngredientForm() {
       setValue('unit', ingredientData.unit);
       setValue('costPerUnit', ingredientData.costPerUnit);
       setValue('supplier', ingredientData.supplier || '');
+      setValue('currentStock', ingredientData.currentStock || 0);
+      setValue('minStock', ingredientData.minStock || 0);
     } catch (error) {
       console.error('Erro ao carregar ingrediente:', error);
       toast.error('Erro ao carregar ingrediente');
@@ -77,6 +83,8 @@ export function IngredientForm() {
         unit: data.unit.trim(),
         costPerUnit: data.costPerUnit,
         supplier: data.supplier?.trim() || undefined,
+        currentStock: data.currentStock,
+        minStock: data.minStock,
       };
 
       if (isEditing && id) {
@@ -222,6 +230,48 @@ export function IngredientForm() {
                 />
                 {errors.supplier && (
                   <p className="mt-1 text-sm text-red-600">{errors.supplier.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="currentStock" className="block text-sm font-medium text-gray-700 mb-2">
+                  Estoque Atual
+                </label>
+                <input
+                  {...register('currentStock', { 
+                    valueAsNumber: true,
+                    setValueAs: (value) => value === '' ? 0 : Number(value)
+                  })}
+                  type="number"
+                  id="currentStock"
+                  step="0.01"
+                  min="0"
+                  className={`input ${errors.currentStock ? 'border-red-500' : ''}`}
+                  placeholder="0"
+                />
+                {errors.currentStock && (
+                  <p className="mt-1 text-sm text-red-600">{errors.currentStock.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="minStock" className="block text-sm font-medium text-gray-700 mb-2">
+                  Estoque Mínimo
+                </label>
+                <input
+                  {...register('minStock', { 
+                    valueAsNumber: true,
+                    setValueAs: (value) => value === '' ? 0 : Number(value)
+                  })}
+                  type="number"
+                  id="minStock"
+                  step="0.01"
+                  min="0"
+                  className={`input ${errors.minStock ? 'border-red-500' : ''}`}
+                  placeholder="0"
+                />
+                {errors.minStock && (
+                  <p className="mt-1 text-sm text-red-600">{errors.minStock.message}</p>
                 )}
               </div>
             </div>

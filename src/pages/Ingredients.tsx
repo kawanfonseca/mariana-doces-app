@@ -104,6 +104,8 @@ export function Ingredients() {
                 <th>Unidade</th>
                 <th className="text-right">Custo por Unidade</th>
                 <th>Fornecedor</th>
+                <th className="text-right">Estoque Atual</th>
+                <th className="text-right">Estoque Mín.</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -111,7 +113,7 @@ export function Ingredients() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-8">
+                  <td colSpan={8} className="text-center py-8">
                     <div className="flex items-center justify-center">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
                       <span className="ml-2">Carregando...</span>
@@ -120,7 +122,7 @@ export function Ingredients() {
                 </tr>
               ) : ingredients.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-8 text-gray-500">
+                  <td colSpan={8} className="text-center py-8 text-gray-500">
                     {search ? 'Nenhum ingrediente encontrado' : 'Nenhum ingrediente cadastrado'}
                   </td>
                 </tr>
@@ -133,14 +135,33 @@ export function Ingredients() {
                       {formatCurrency(ingredient.costPerUnit)}
                     </td>
                     <td>{ingredient.supplier || '-'}</td>
-                    <td>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        ingredient.active 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
+                    <td className="text-right">
+                      <span className={`font-medium ${
+                        ingredient.currentStock <= ingredient.minStock 
+                          ? 'text-red-600' 
+                          : 'text-gray-900'
                       }`}>
-                        {ingredient.active ? 'Ativo' : 'Inativo'}
+                        {ingredient.currentStock} {ingredient.unit}
                       </span>
+                    </td>
+                    <td className="text-right text-gray-600">
+                      {ingredient.minStock} {ingredient.unit}
+                    </td>
+                    <td>
+                      <div className="flex flex-col space-y-1">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          ingredient.active 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {ingredient.active ? 'Ativo' : 'Inativo'}
+                        </span>
+                        {ingredient.currentStock <= ingredient.minStock && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            Estoque Baixo
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td>
                       <div className="flex items-center space-x-2">

@@ -23,6 +23,8 @@ export interface Ingredient {
   costPerUnit: number;
   supplier?: string;
   active: boolean;
+  currentStock: number;
+  minStock: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -32,6 +34,8 @@ export interface CreateIngredientRequest {
   unit: string;
   costPerUnit: number;
   supplier?: string;
+  currentStock?: number;
+  minStock?: number;
 }
 
 export interface Packaging {
@@ -246,4 +250,47 @@ export interface PaginatedResponse<T> {
 export interface ApiError {
   error: string;
   details?: string | { field: string; message: string }[];
+}
+
+export interface StockMovement {
+  id: string;
+  ingredientId: string;
+  type: 'IN' | 'OUT' | 'ADJUSTMENT';
+  quantity: number;
+  reason: string;
+  notes?: string;
+  createdAt: string;
+  ingredient: {
+    id: string;
+    name: string;
+    unit: string;
+  };
+}
+
+export interface CreateStockMovementRequest {
+  ingredientId: string;
+  type: 'IN' | 'OUT' | 'ADJUSTMENT';
+  quantity: number;
+  reason: string;
+  notes?: string;
+}
+
+export interface ProductCostAnalysis {
+  productId: string;
+  productName: string;
+  ingredientsCost: number;
+  packagingCost: number;
+  laborCost: number;
+  totalCost: number;
+  sellingPrice: number;
+  profit: number;
+  profitMargin: number;
+  recipeItems: {
+    ingredientId: string;
+    ingredientName: string;
+    quantity: number;
+    unit: string;
+    costPerUnit: number;
+    totalCost: number;
+  }[];
 }
