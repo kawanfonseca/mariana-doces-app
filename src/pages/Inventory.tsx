@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Plus, Package, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import { Plus, Package, AlertTriangle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { ingredientsService } from '@/services/ingredients';
-import { Ingredient, StockMovement, CreateStockMovementRequest } from '@/types';
+import { Ingredient, CreateStockMovementRequest } from '@/types';
 import { formatCurrency } from '@/utils/format';
 import { useAuthStore } from '@/store/auth';
 
@@ -33,7 +33,6 @@ export function Inventory() {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<StockMovementForm>({
     resolver: zodResolver(stockMovementSchema),
     defaultValues: {
