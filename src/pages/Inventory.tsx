@@ -21,7 +21,7 @@ type StockMovementForm = z.infer<typeof stockMovementSchema>;
 
 export function Inventory() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [stockMovements, setStockMovements] = useState<StockMovement[]>([]);
+  const [, setStockMovements] = useState<StockMovement[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showMovementForm, setShowMovementForm] = useState(false);
@@ -34,7 +34,6 @@ export function Inventory() {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
     watch,
   } = useForm<StockMovementForm>({
     resolver: zodResolver(stockMovementSchema),
@@ -47,7 +46,7 @@ export function Inventory() {
     },
   });
 
-  const selectedType = watch('type');
+  const _selectedType = watch('type');
 
   useEffect(() => {
     loadData();
@@ -105,7 +104,7 @@ export function Inventory() {
     }
   };
 
-  const getMovementIcon = (type: string) => {
+  const _getMovementIcon = (type: string) => {
     switch (type) {
       case 'IN':
         return <TrendingUp className="w-4 h-4 text-green-600" />;

@@ -7,7 +7,7 @@ import { ArrowLeft, Save, Plus, Trash2, Calculator } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { productsService } from '@/services/products';
 import { ingredientsService } from '@/services/ingredients';
-import { Product, Ingredient, ProductRecipe, UpdateProductRecipeRequest } from '@/types';
+import { Product, Ingredient, ProductRecipe as ProductRecipeType, UpdateProductRecipeRequest } from '@/types';
 import { formatCurrency } from '@/utils/format';
 
 const recipeItemSchema = z.object({
@@ -43,10 +43,9 @@ export function ProductRecipe() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: _errors },
     setValue,
     watch,
-    control,
   } = useForm<RecipeForm>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
