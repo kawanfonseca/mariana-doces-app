@@ -21,7 +21,6 @@ type StockMovementForm = z.infer<typeof stockMovementSchema>;
 
 export function Inventory() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [, setStockMovements] = useState<StockMovement[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showMovementForm, setShowMovementForm] = useState(false);
@@ -46,7 +45,7 @@ export function Inventory() {
     },
   });
 
-  const _selectedType = watch('type');
+  // const selectedType = watch('type'); // Removido - não utilizado
 
   useEffect(() => {
     loadData();
@@ -104,18 +103,19 @@ export function Inventory() {
     }
   };
 
-  const _getMovementIcon = (type: string) => {
-    switch (type) {
-      case 'IN':
-        return <TrendingUp className="w-4 h-4 text-green-600" />;
-      case 'OUT':
-        return <TrendingDown className="w-4 h-4 text-red-600" />;
-      case 'ADJUSTMENT':
-        return <Package className="w-4 h-4 text-blue-600" />;
-      default:
-        return <Package className="w-4 h-4 text-gray-600" />;
-    }
-  };
+  // Função removida - não utilizada
+  // const getMovementIcon = (type: string) => {
+  //   switch (type) {
+  //     case 'IN':
+  //       return <TrendingUp className="w-4 h-4 text-green-600" />;
+  //     case 'OUT':
+  //       return <TrendingDown className="w-4 h-4 text-red-600" />;
+  //     case 'ADJUSTMENT':
+  //       return <Package className="w-4 h-4 text-blue-600" />;
+  //     default:
+  //       return <Package className="w-4 h-4 text-gray-600" />;
+  //   }
+  // };
 
   if (loading) {
     return (
