@@ -71,7 +71,10 @@ export function DailySales() {
       setProducts(response.data.filter(p => p.active));
       
       if (response.data.length === 0) {
-        toast.info('Nenhum produto ativo encontrado. Cadastre produtos primeiro.');
+        toast('Nenhum produto ativo encontrado. Cadastre produtos primeiro.', {
+          icon: 'ℹ️',
+          duration: 5000,
+        });
       }
     } catch (error: any) {
       console.error('Erro ao carregar produtos:', error);
