@@ -14,8 +14,22 @@ export const productsService = {
     limit?: number; 
     search?: string; 
   }): Promise<PaginatedResponse<Product>> {
-    const response = await api.get('/products', { params });
-    return response.data;
+    try {
+      const response = await api.get('/products', { params });
+      return response.data;
+    } catch (error: any) {
+      console.error('Erro na API de produtos:', error);
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      } else if (error.response?.data?.details) {
+        const details = error.response.data.details;
+        if (Array.isArray(details) && details.length > 0) {
+          throw new Error(details[0].message || 'Parâmetros inválidos');
+        }
+        throw new Error('Parâmetros inválidos');
+      }
+      throw error;
+    }
   },
 
   async getProduct(id: string): Promise<Product> {

@@ -57,10 +57,40 @@ export function DailySales() {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const response = await productsService.getProducts({ limit: 100 });
+      
+      // Tentar carregar produtos sem parâmetros primeiro
+      let response;
+      try {
+        response = await productsService.getProducts();
+      } catch (firstError: any) {
+        console.log('Primeira tentativa falhou, tentando com parâmetros mínimos:', firstError);
+        // Se falhar, tentar com parâmetros mínimos
+        response = await productsService.getProducts({ page: 1, limit: 50 });
+      }
+      
       setProducts(response.data.filter(p => p.active));
-    } catch (error) {
+      
+      if (response.data.length === 0) {
+        toast.info('Nenhum produto ativo encontrado. Cadastre produtos primeiro.');
+      }
+    } catch (error: any) {
       console.error('Erro ao carregar produtos:', error);
+      
+      // Mostrar erro mais específico
+      if (error.response?.data?.error) {
+        toast.error(`Erro ao carregar produtos: ${error.response.data.error}`);
+      } else if (error.response?.data?.details) {
+        const details = error.response.data.details;
+        if (Array.isArray(details) && details.length > 0) {
+          toast.error(`Erro de validação: ${details[0].message}`);
+        } else {
+          toast.error('Erro de validação nos parâmetros');
+        }
+      } else if (error.message) {
+        toast.error(`Erro: ${error.message}`);
+      } else {
+        toast.error('Erro ao carregar produtos. Verifique sua conexão.');
+      }
     } finally {
       setLoading(false);
     }
@@ -157,10 +187,19 @@ export function DailySales() {
           </p>
         </div>
         
-        <button className="btn-outline">
-          <Upload className="w-4 h-4 mr-2" />
-          Importar CSV
-        </button>
+        <div className="flex space-x-2">
+          <button 
+            type="button"
+            onClick={loadProducts}
+            className="btn-outline"
+          >
+            Recarregar Produtos
+          </button>
+          <button className="btn-outline">
+            <Upload className="w-4 h-4 mr-2" />
+            Importar CSV
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -236,8 +275,16 @@ export function DailySales() {
             <h3 className="text-lg font-semibold">Produtos - {activeTab === 'DIRECT' ? 'Pronta Entrega' : 'iFood'}</h3>
           </div>
           <div className="card-content">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {products.map((product) => {
+            {products.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-500 mb-4">Nenhum produto ativo encontrado.</p>
+                <p className="text-sm text-gray-400">
+                  Cadastre produtos primeiro ou verifique se há produtos ativos.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {products.map((product) => {
                 const price = getProductPrice(product, selectedChannel);
                 const qty = saleItems[product.id] || 0;
                 
@@ -284,7 +331,8 @@ export function DailySales() {
                   </div>
                 );
               })}
-            </div>
+              </div>
+            )}
           </div>
         </div>
 
