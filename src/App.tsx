@@ -15,6 +15,8 @@ import { PackagingPage } from '@/pages/Packaging';
 import { PackagingForm } from '@/pages/PackagingForm';
 import { ProductRecipe } from '@/pages/ProductRecipe';
 import { Inventory } from '@/pages/Inventory';
+import { StockManagement } from '@/pages/StockManagement';
+import { StockReports } from '@/pages/StockReports';
 import { Settings } from '@/pages/Settings';
 
 function App() {
@@ -57,6 +59,8 @@ function App() {
             <Route path="embalagens/novo" element={<PackagingForm />} />
             <Route path="embalagens/:id/editar" element={<PackagingForm />} />
             <Route path="estoque" element={<Inventory />} />
+            <Route path="gerenciamento-estoque" element={<StockManagement />} />
+            <Route path="relatorios-estoque" element={<StockReports />} />
             <Route path="configuracoes" element={<Settings />} />
           </Route>
         </Routes>

@@ -9,7 +9,9 @@ import {
   LogOut,
   User,
   Cake,
-  Archive
+  Archive,
+  Warehouse,
+  FileText
 } from 'lucide-react';
 
 export function Layout() {
@@ -27,6 +29,8 @@ export function Layout() {
     { name: 'Produtos', href: '/produtos', icon: Cake },
     { name: 'Ingredientes', href: '/ingredientes', icon: Package },
     { name: 'Embalagens', href: '/embalagens', icon: Archive },
+    { name: 'Gerenciamento de Estoque', href: '/gerenciamento-estoque', icon: Warehouse },
+    { name: 'Relatórios de Estoque', href: '/relatorios-estoque', icon: FileText },
     { name: 'Diário de Vendas', href: '/vendas', icon: ShoppingCart },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
     { name: 'Configurações', href: '/configuracoes', icon: Settings },
