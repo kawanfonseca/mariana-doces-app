@@ -52,7 +52,7 @@ interface InventoryStats {
 
 export function StockManagement() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [, setStockMovements] = useState<StockMovement[]>([]);
+  const [stockMovements, setStockMovements] = useState<StockMovement[]>([]);
   const [alerts, setAlerts] = useState<StockAlert[]>([]);
   const [stats, setStats] = useState<InventoryStats>({
     totalIngredients: 0,
@@ -78,7 +78,6 @@ export function StockManagement() {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<StockMovementForm>({
     resolver: zodResolver(stockMovementSchema),
     defaultValues: {
@@ -89,8 +88,6 @@ export function StockManagement() {
       notes: '',
     },
   });
-
-  const _selectedType = watch('type');
 
   useEffect(() => {
     loadData();
@@ -109,9 +106,8 @@ export function StockManagement() {
       // Gerar alertas
       generateAlerts(activeIngredients);
       
-      // TODO: Carregar movimentações de estoque quando a API estiver disponível
-      // const movementsResponse = await ingredientsService.getStockMovements();
-      // setStockMovements(movementsResponse.data);
+      const movementsResponse = await ingredientsService.getStockMovements();
+      setStockMovements(movementsResponse.data);
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       toast.error('Erro ao carregar dados do estoque');
@@ -180,7 +176,7 @@ export function StockManagement() {
       };
 
       // TODO: Implementar API de movimentação de estoque
-      // await ingredientsService.createStockMovement(movementData);
+      await ingredientsService.createStockMovement(movementData);
       
       // Simular criação de movimentação
       console.log('Movimentação de estoque:', movementData);

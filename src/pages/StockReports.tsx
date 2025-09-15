@@ -54,9 +54,7 @@ export function StockReports() {
     start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     end: new Date().toISOString().split('T')[0]
   });
-  const { user } = useAuthStore();
-
-  const _isAdmin = user?.role === 'ADMIN';
+  const { user: _user } = useAuthStore();
 
   useEffect(() => {
     loadData();
@@ -73,7 +71,7 @@ export function StockReports() {
       generateStockReport(activeIngredients);
       
       // TODO: Gerar relatório de movimentações quando a API estiver disponível
-      // generateMovementReport();
+      _generateMovementReport();
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
       toast.error('Erro ao carregar dados dos relatórios');
@@ -127,7 +125,6 @@ export function StockReports() {
   };
 
   const _generateMovementReport = () => {
-    // TODO: Implementar quando a API de movimentações estiver disponível
     setMovementReport({
       totalMovements: 0,
       movementsByType: { IN: 0, OUT: 0, ADJUSTMENT: 0 },

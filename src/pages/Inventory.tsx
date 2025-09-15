@@ -44,8 +44,6 @@ export function Inventory() {
     },
   });
 
-  // const selectedType = watch('type'); // Removido - não utilizado
-
   useEffect(() => {
     loadData();
   }, []);
