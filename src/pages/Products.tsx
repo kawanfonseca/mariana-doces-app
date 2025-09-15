@@ -54,6 +54,7 @@ export function Products() {
       loadProducts();
     } catch (error) {
       console.error('Erro ao excluir produto:', error);
+      toast.error('Erro ao excluir produto');
     }
   };
 

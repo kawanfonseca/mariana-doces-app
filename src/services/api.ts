@@ -35,6 +35,9 @@ api.interceptors.response.use(
       toast.error('Sessão expirada. Faça login novamente.');
     } else if (error.response?.status >= 500) {
       toast.error('Erro interno do servidor. Tente novamente.');
+    } else if (error.response?.status === 400) {
+      // Não mostrar toast automático para erros 400 (validação)
+      // Deixar que os componentes tratem esses erros específicos
     } else if (error.response?.data?.error) {
       toast.error(error.response.data.error);
     } else {

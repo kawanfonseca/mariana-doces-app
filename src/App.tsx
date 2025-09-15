@@ -6,10 +6,13 @@ import { Login } from '@/pages/Login';
 import { Dashboard } from '@/pages/Dashboard';
 import { Products } from '@/pages/Products';
 import { ProductDetail } from '@/pages/ProductDetail';
+import { ProductForm } from '@/pages/ProductForm';
 import { DailySales } from '@/pages/DailySales';
 import { Reports } from '@/pages/Reports';
 import { Ingredients } from '@/pages/Ingredients';
+import { IngredientForm } from '@/pages/IngredientForm';
 import { PackagingPage } from '@/pages/Packaging';
+import { PackagingForm } from '@/pages/PackagingForm';
 import { Settings } from '@/pages/Settings';
 
 function App() {
@@ -39,11 +42,17 @@ function App() {
           }>
             <Route index element={<Dashboard />} />
             <Route path="produtos" element={<Products />} />
+            <Route path="produtos/novo" element={<ProductForm />} />
             <Route path="produtos/:id" element={<ProductDetail />} />
+            <Route path="produtos/:id/editar" element={<ProductForm />} />
             <Route path="vendas" element={<DailySales />} />
             <Route path="relatorios" element={<Reports />} />
             <Route path="ingredientes" element={<Ingredients />} />
+            <Route path="ingredientes/novo" element={<IngredientForm />} />
+            <Route path="ingredientes/:id/editar" element={<IngredientForm />} />
             <Route path="embalagens" element={<PackagingPage />} />
+            <Route path="embalagens/novo" element={<PackagingForm />} />
+            <Route path="embalagens/:id/editar" element={<PackagingForm />} />
             <Route path="configuracoes" element={<Settings />} />
           </Route>
         </Routes>

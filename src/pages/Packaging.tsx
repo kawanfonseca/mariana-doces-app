@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Plus, Search, Edit, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { api } from '@/services/api';
-import { Packaging, PaginatedResponse } from '@/types';
+import { packagingService } from '@/services/packaging';
+import { Packaging } from '@/types';
 import { formatCurrency } from '@/utils/format';
 import { useAuthStore } from '@/store/auth';
 
@@ -23,17 +24,16 @@ export function PackagingPage() {
   const loadPackaging = async () => {
     try {
       setLoading(true);
-      const response = await api.get<PaginatedResponse<Packaging>>('/packaging', {
-        params: {
-          page,
-          limit: 20,
-          search: search || undefined,
-        }
+      const response = await packagingService.getPackaging({
+        page,
+        limit: 20,
+        search: search || undefined,
       });
-      setPackaging(response.data.data);
-      setTotalPages(response.data.pagination.pages);
+      setPackaging(response.data);
+      setTotalPages(response.pagination.pages);
     } catch (error) {
       console.error('Erro ao carregar embalagens:', error);
+      toast.error('Erro ao carregar embalagens');
     } finally {
       setLoading(false);
     }
@@ -50,11 +50,12 @@ export function PackagingPage() {
     }
 
     try {
-      await api.delete(`/packaging/${id}`);
+      await packagingService.deletePackaging(id);
       toast.success('Embalagem excluída com sucesso');
       loadPackaging();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao excluir embalagem:', error);
+      toast.error(error.message || 'Erro ao excluir embalagem');
     }
   };
 
@@ -70,10 +71,10 @@ export function PackagingPage() {
         </div>
         
         {isAdmin && (
-          <button className="btn-primary">
+          <Link to="/embalagens/novo" className="btn-primary">
             <Plus className="w-4 h-4 mr-2" />
             Nova Embalagem
-          </button>
+          </Link>
         )}
       </div>
 
@@ -141,12 +142,13 @@ export function PackagingPage() {
                       <div className="flex items-center space-x-2">
                         {isAdmin && (
                           <>
-                            <button
+                            <Link
+                              to={`/embalagens/${item.id}/editar`}
                               className="p-1 text-gray-400 hover:text-yellow-600 transition-colors"
                               title="Editar"
                             >
                               <Edit className="w-4 h-4" />
-                            </button>
+                            </Link>
                             
                             <button
                               onClick={() => handleDelete(item.id, item.name)}

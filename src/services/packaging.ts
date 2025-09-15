@@ -1,38 +1,35 @@
 import { api } from './api';
 import { 
-  Product, 
-  CreateProductRequest, 
-  PaginatedResponse, 
-  ProductRecipe, 
-  UpdateProductRecipeRequest,
-  PricingPreview 
+  Packaging, 
+  CreatePackagingRequest, 
+  PaginatedResponse 
 } from '@/types';
 
-export const productsService = {
-  async getProducts(params?: { 
+export const packagingService = {
+  async getPackaging(params?: { 
     page?: number; 
     limit?: number; 
     search?: string; 
-  }): Promise<PaginatedResponse<Product>> {
-    const response = await api.get('/products', { params });
+  }): Promise<PaginatedResponse<Packaging>> {
+    const response = await api.get('/packaging', { params });
     return response.data;
   },
 
-  async getProduct(id: string): Promise<Product> {
+  async getPackagingItem(id: string): Promise<Packaging> {
     try {
-      const response = await api.get(`/products/${id}`);
+      const response = await api.get(`/packaging/${id}`);
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 404) {
-        throw new Error('Produto não encontrado');
+        throw new Error('Embalagem não encontrada');
       }
       throw error;
     }
   },
 
-  async createProduct(data: CreateProductRequest): Promise<Product> {
+  async createPackaging(data: CreatePackagingRequest): Promise<Packaging> {
     try {
-      const response = await api.post('/products', data);
+      const response = await api.post('/packaging', data);
       return response.data;
     } catch (error: any) {
       // Re-throw with more specific error handling
@@ -49,9 +46,9 @@ export const productsService = {
     }
   },
 
-  async updateProduct(id: string, data: Partial<CreateProductRequest>): Promise<Product> {
+  async updatePackaging(id: string, data: Partial<CreatePackagingRequest>): Promise<Packaging> {
     try {
-      const response = await api.put(`/products/${id}`, data);
+      const response = await api.put(`/packaging/${id}`, data);
       return response.data;
     } catch (error: any) {
       // Re-throw with more specific error handling
@@ -68,23 +65,14 @@ export const productsService = {
     }
   },
 
-  async deleteProduct(id: string): Promise<void> {
-    await api.delete(`/products/${id}`);
-  },
-
-  async getProductRecipe(id: string): Promise<ProductRecipe> {
-    const response = await api.get(`/products/${id}/recipe`);
-    return response.data;
-  },
-
-  async updateProductRecipe(id: string, data: UpdateProductRecipeRequest): Promise<void> {
-    await api.put(`/products/${id}/recipe`, data);
-  },
-
-  async getPricingPreview(productId: string): Promise<PricingPreview> {
-    const response = await api.get('/products/pricing/preview', {
-      params: { productId }
-    });
-    return response.data;
+  async deletePackaging(id: string): Promise<void> {
+    try {
+      await api.delete(`/packaging/${id}`);
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
   },
 };
