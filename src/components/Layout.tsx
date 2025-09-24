@@ -11,7 +11,8 @@ import {
   Cake,
   Archive,
   Warehouse,
-  FileText
+  FileText,
+  Users
 } from 'lucide-react';
 
 export function Layout() {
@@ -33,6 +34,7 @@ export function Layout() {
     { name: 'Relatórios de Estoque', href: '/relatorios-estoque', icon: FileText },
     { name: 'Diário de Vendas', href: '/vendas', icon: ShoppingCart },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
+    ...(user?.role === 'ADMIN' ? [{ name: 'Usuários', href: '/usuarios', icon: Users }] : []),
     { name: 'Configurações', href: '/configuracoes', icon: Settings },
   ];
 

@@ -18,6 +18,7 @@ import { Inventory } from '@/pages/Inventory';
 import { StockManagement } from '@/pages/StockManagement';
 import { StockReports } from '@/pages/StockReports';
 import { Settings } from '@/pages/Settings';
+import { UserManagement } from '@/pages/UserManagement';
 
 function App() {
   const { isAuthenticated } = useAuthStore();
@@ -61,6 +62,7 @@ function App() {
             <Route path="estoque" element={<Inventory />} />
             <Route path="gerenciamento-estoque" element={<StockManagement />} />
             <Route path="relatorios-estoque" element={<StockReports />} />
+            <Route path="usuarios" element={<UserManagement />} />
             <Route path="configuracoes" element={<Settings />} />
           </Route>
         </Routes>
