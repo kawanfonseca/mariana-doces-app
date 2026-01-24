@@ -1,17 +1,18 @@
 import { api } from './api';
-import { 
-  Ingredient, 
-  CreateIngredientRequest, 
+import { createApiError } from '@/utils/parseApiError';
+import {
+  Ingredient,
+  CreateIngredientRequest,
   PaginatedResponse,
   StockMovement,
   CreateStockMovementRequest
 } from '@/types';
 
 export const ingredientsService = {
-  async getIngredients(params?: { 
-    page?: number; 
-    limit?: number; 
-    search?: string; 
+  async getIngredients(params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
   }): Promise<PaginatedResponse<Ingredient>> {
     const response = await api.get('/ingredients', { params });
     return response.data;
@@ -21,11 +22,8 @@ export const ingredientsService = {
     try {
       const response = await api.get(`/ingredients/${id}`);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.status === 404) {
-        throw new Error('Ingrediente não encontrado');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Ingrediente não encontrado');
     }
   },
 
@@ -33,18 +31,8 @@ export const ingredientsService = {
     try {
       const response = await api.post('/ingredients', data);
       return response.data;
-    } catch (error: any) {
-      // Re-throw with more specific error handling
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao criar ingrediente');
     }
   },
 
@@ -52,46 +40,30 @@ export const ingredientsService = {
     try {
       const response = await api.put(`/ingredients/${id}`, data);
       return response.data;
-    } catch (error: any) {
-      // Re-throw with more specific error handling
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao atualizar ingrediente');
     }
   },
 
   async deleteIngredient(id: string): Promise<void> {
     try {
       await api.delete(`/ingredients/${id}`);
-    } catch (error: any) {
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao excluir ingrediente');
     }
   },
 
   // Stock Management
-  async getStockMovements(params?: { 
-    page?: number; 
-    limit?: number; 
+  async getStockMovements(params?: {
+    page?: number;
+    limit?: number;
     ingredientId?: string;
   }): Promise<PaginatedResponse<StockMovement>> {
     try {
       const response = await api.get('/ingredients/stock-movements', { params });
       return response.data;
-    } catch (error: any) {
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao carregar movimentações');
     }
   },
 
@@ -99,17 +71,8 @@ export const ingredientsService = {
     try {
       const response = await api.post('/ingredients/stock-movements', data);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao registrar movimentação');
     }
   },
 };
