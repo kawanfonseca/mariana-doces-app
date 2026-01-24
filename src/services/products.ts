@@ -1,34 +1,26 @@
 import { api } from './api';
-import { 
-  Product, 
-  CreateProductRequest, 
-  PaginatedResponse, 
-  ProductRecipe, 
+import { createApiError } from '@/utils/parseApiError';
+import {
+  Product,
+  CreateProductRequest,
+  PaginatedResponse,
+  ProductRecipe,
   UpdateProductRecipeRequest,
-  PricingPreview 
+  PricingPreview
 } from '@/types';
 
 export const productsService = {
-  async getProducts(params?: { 
-    page?: number; 
-    limit?: number; 
-    search?: string; 
+  async getProducts(params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
   }): Promise<PaginatedResponse<Product>> {
     try {
       const response = await api.get('/products', { params });
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Erro na API de produtos:', error);
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+      throw createApiError(error, 'Erro ao carregar produtos');
     }
   },
 
@@ -36,11 +28,8 @@ export const productsService = {
     try {
       const response = await api.get(`/products/${id}`);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.status === 404) {
-        throw new Error('Produto não encontrado');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Produto não encontrado');
     }
   },
 
@@ -48,18 +37,8 @@ export const productsService = {
     try {
       const response = await api.post('/products', data);
       return response.data;
-    } catch (error: any) {
-      // Re-throw with more specific error handling
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao criar produto');
     }
   },
 
@@ -67,18 +46,8 @@ export const productsService = {
     try {
       const response = await api.put(`/products/${id}`, data);
       return response.data;
-    } catch (error: any) {
-      // Re-throw with more specific error handling
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.response?.data?.details) {
-        const details = error.response.data.details;
-        if (Array.isArray(details) && details.length > 0) {
-          throw new Error(details[0].message || 'Parâmetros inválidos');
-        }
-        throw new Error('Parâmetros inválidos');
-      }
-      throw error;
+    } catch (error) {
+      throw createApiError(error, 'Erro ao atualizar produto');
     }
   },
 
