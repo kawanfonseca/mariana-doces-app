@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { Calendar, Save, Upload } from 'lucide-react';
+import { Calendar, Save, ClipboardList } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { productsService } from '@/services/products';
 import { ordersService } from '@/services/orders';
 import { configService } from '@/services/config';
@@ -211,16 +212,16 @@ export function DailySales() {
         </div>
         
         <div className="flex space-x-2">
-          <button 
+          <Link to="/historico-vendas" className="btn-outline">
+            <ClipboardList className="w-4 h-4 mr-2" />
+            Ver Histórico
+          </Link>
+          <button
             type="button"
             onClick={loadProducts}
             className="btn-outline"
           >
             Recarregar Produtos
-          </button>
-          <button className="btn-outline">
-            <Upload className="w-4 h-4 mr-2" />
-            Importar CSV
           </button>
         </div>
       </div>

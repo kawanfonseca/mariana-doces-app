@@ -19,6 +19,7 @@ import { StockManagement } from '@/pages/StockManagement';
 import { StockReports } from '@/pages/StockReports';
 import { Settings } from '@/pages/Settings';
 import { UserManagement } from '@/pages/UserManagement';
+import { SalesHistory } from '@/pages/SalesHistory';
 
 function App() {
   const { isAuthenticated } = useAuthStore();
@@ -52,6 +53,7 @@ function App() {
             <Route path="produtos/:id/editar" element={<ProductForm />} />
             <Route path="produtos/:id/receita" element={<ProductRecipe />} />
             <Route path="vendas" element={<DailySales />} />
+            <Route path="historico-vendas" element={<SalesHistory />} />
             <Route path="relatorios" element={<Reports />} />
             <Route path="ingredientes" element={<Ingredients />} />
             <Route path="ingredientes/novo" element={<IngredientForm />} />
