@@ -7,6 +7,10 @@ export const authService = {
     return response.data;
   },
 
+  async register(data: { name: string; email: string; password: string }): Promise<void> {
+    await api.post('/auth/register', data);
+  },
+
   async getMe(): Promise<User> {
     const response = await api.get('/auth/me');
     return response.data;
