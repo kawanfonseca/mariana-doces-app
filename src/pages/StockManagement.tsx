@@ -121,8 +121,11 @@ export function StockManagement() {
     const lowStockCount = ingredientsList.filter(i => i.currentStock <= i.minStock && i.currentStock > 0).length;
     const outOfStockCount = ingredientsList.filter(i => i.currentStock <= 0).length;
     const totalValue = ingredientsList.reduce((sum, i) => sum + (i.currentStock * i.costPerUnit), 0);
-    const averageStockLevel = totalIngredients > 0 ? 
-      ingredientsList.reduce((sum, i) => sum + (i.currentStock / i.minStock), 0) / totalIngredients : 0;
+    const averageStockLevel = totalIngredients > 0 ?
+      ingredientsList.reduce((sum, i) => {
+        const level = i.minStock > 0 ? (i.currentStock / i.minStock) : (i.currentStock > 0 ? 1 : 0);
+        return sum + level;
+      }, 0) / totalIngredients : 0;
 
     setStats({
       totalIngredients,

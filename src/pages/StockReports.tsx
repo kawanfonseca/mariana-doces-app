@@ -89,8 +89,11 @@ export function StockReports() {
     const lowStockValue = lowStockIngredients.reduce((sum, i) => sum + (i.currentStock * i.costPerUnit), 0);
     const outOfStockValue = outOfStockIngredients.reduce((sum, i) => sum + (i.currentStock * i.costPerUnit), 0);
     
-    const averageStockLevel = ingredientsList.length > 0 ? 
-      ingredientsList.reduce((sum, i) => sum + (i.currentStock / i.minStock), 0) / ingredientsList.length : 0;
+    const averageStockLevel = ingredientsList.length > 0 ?
+      ingredientsList.reduce((sum, i) => {
+        const level = i.minStock > 0 ? (i.currentStock / i.minStock) : (i.currentStock > 0 ? 1 : 0);
+        return sum + level;
+      }, 0) / ingredientsList.length : 0;
 
     // Top 5 ingredientes por valor
     const topIngredients = ingredientsList

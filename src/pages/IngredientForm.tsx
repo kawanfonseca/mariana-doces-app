@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ArrowLeft, Save } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { ingredientsService } from '@/services/ingredients';
-import { Ingredient, CreateIngredientRequest } from '@/types';
+import { CreateIngredientRequest } from '@/types';
 
 const ingredientSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
@@ -24,7 +24,6 @@ export function IngredientForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [, setIngredient] = useState<Ingredient | null>(null);
   
   const isEditing = Boolean(id);
   
@@ -57,7 +56,6 @@ export function IngredientForm() {
     try {
       setLoading(true);
       const ingredientData = await ingredientsService.getIngredient(id);
-      setIngredient(ingredientData);
       
       setValue('name', ingredientData.name);
       setValue('unit', ingredientData.unit);

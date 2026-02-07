@@ -101,7 +101,7 @@ export function ProductRecipe() {
 
   const addRecipeItem = () => {
     const currentItems = watch('recipeItems');
-    setValue('recipeItems', [...currentItems, { ingredientId: '', qty: 0, wastePct: 0 }]);
+    setValue('recipeItems', [...currentItems, { ingredientId: '', qty: '' as any, wastePct: 0 }]);
   };
 
   const removeRecipeItem = (index: number) => {

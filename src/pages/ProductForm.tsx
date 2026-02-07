@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ArrowLeft, Save } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { productsService } from '@/services/products';
-import { Product, CreateProductRequest } from '@/types';
+import { CreateProductRequest } from '@/types';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
@@ -21,7 +21,6 @@ export function ProductForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [, setProduct] = useState<Product | null>(null);
   
   const isEditing = Boolean(id);
   
@@ -51,7 +50,6 @@ export function ProductForm() {
     try {
       setLoading(true);
       const productData = await productsService.getProduct(id);
-      setProduct(productData);
       
       setValue('name', productData.name);
       setValue('channelBasePriceDirect', productData.channelBasePriceDirect || undefined);

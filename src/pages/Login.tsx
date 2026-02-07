@@ -36,8 +36,10 @@ export function Login() {
       setAuth(response.user, response.token);
       toast.success(`Bem-vindo(a), ${response.user.name}!`);
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro no login:', error);
+      const message = error?.response?.data?.error || 'Email ou senha incorretos';
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -116,13 +118,15 @@ export function Login() {
             </button>
           </div>
 
-          <div className="text-center">
-            <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
-              <p className="font-medium mb-2">Usuários de teste:</p>
-              <p><strong>Admin:</strong> admin@marianaDoces.com / admin123</p>
-              <p><strong>Operador:</strong> operador@marianaDoces.com / operador123</p>
+          {import.meta.env.DEV && (
+            <div className="text-center">
+              <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-md">
+                <p className="font-medium mb-2">Usuários de teste:</p>
+                <p><strong>Admin:</strong> admin@marianadoces.com / admin123</p>
+                <p><strong>Operador:</strong> operador@marianadoces.com / operador123</p>
+              </div>
             </div>
-          </div>
+          )}
         </form>
       </div>
     </div>

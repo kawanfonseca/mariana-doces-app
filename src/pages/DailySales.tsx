@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { Calendar, Save, Upload } from 'lucide-react';
 import { productsService } from '@/services/products';
 import { ordersService } from '@/services/orders';
+import { configService } from '@/services/config';
 import { Product, CreateSaleOrderRequest } from '@/types';
 import { formatCurrency, formatDateInput } from '@/utils/format';
 
@@ -29,6 +30,7 @@ export function DailySales() {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'DIRECT' | 'IFOOD'>('DIRECT');
   const [saleItems, setSaleItems] = useState<Record<string, number>>({});
+  const [iFoodFeePercent, setIFoodFeePercent] = useState(25);
 
   const {
     register,
@@ -57,17 +59,35 @@ export function DailySales() {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      
+
+      // Buscar taxa do iFood da configuração
+      try {
+        const configs = await configService.getConfigs();
+        if (configs.IFOOD_FEE_PERCENT) {
+          setIFoodFeePercent(parseFloat(configs.IFOOD_FEE_PERCENT.value) || 25);
+        }
+      } catch {
+        // Usa valor padrão de 25%
+      }
+
       // Tentar carregar produtos sem parâmetros primeiro
       let response;
       try {
         response = await productsService.getProducts();
       } catch (firstError: any) {
         console.log('Primeira tentativa falhou, tentando com parâmetros mínimos:', firstError);
-        // Se falhar, tentar com parâmetros mínimos
-        response = await productsService.getProducts({ page: 1, limit: 50 });
+        try {
+          response = await productsService.getProducts({ page: 1, limit: 50 });
+        } catch (secondError: any) {
+          throw secondError;
+        }
       }
-      
+
+      if (!response) {
+        toast.error('Não foi possível carregar os produtos');
+        return;
+      }
+
       setProducts(response.data.filter(p => p.active));
       
       if (response.data.length === 0) {
@@ -129,7 +149,7 @@ export function DailySales() {
       }
     });
 
-    const platformFees = selectedChannel === 'IFOOD' ? grossAmount * 0.25 : 0;
+    const platformFees = selectedChannel === 'IFOOD' ? grossAmount * (iFoodFeePercent / 100) : 0;
     const netAmount = grossAmount - platformFees;
 
     return {
@@ -360,7 +380,7 @@ export function DailySales() {
               
               {selectedChannel === 'IFOOD' && (
                 <div className="text-center p-4 bg-red-50 rounded-lg">
-                  <p className="text-sm text-red-600 font-medium">Taxa iFood (25%)</p>
+                  <p className="text-sm text-red-600 font-medium">Taxa iFood ({iFoodFeePercent}%)</p>
                   <p className="text-2xl font-bold text-red-900">
                     {formatCurrency(totals.platformFees)}
                   </p>

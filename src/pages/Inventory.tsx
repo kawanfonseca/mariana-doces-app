@@ -66,7 +66,6 @@ export function Inventory() {
     try {
       setSaving(true);
       
-      // TODO: Implementar API de movimentação de estoque
       const movementData: CreateStockMovementRequest = {
         ingredientId: data.ingredientId,
         type: data.type,
@@ -75,9 +74,7 @@ export function Inventory() {
         notes: data.notes,
       };
 
-      // Simular criação de movimentação
-      console.log('Movimentação de estoque:', movementData);
-      
+      await ingredientsService.createStockMovement(movementData);
       toast.success('Movimentação registrada com sucesso');
       reset();
       setShowMovementForm(false);

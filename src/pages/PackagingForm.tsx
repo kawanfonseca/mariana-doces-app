@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { ArrowLeft, Save } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { packagingService } from '@/services/packaging';
-import { Packaging, CreatePackagingRequest } from '@/types';
+import { CreatePackagingRequest } from '@/types';
 
 const packagingSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
@@ -20,7 +20,6 @@ export function PackagingForm() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [, setPackaging] = useState<Packaging | null>(null);
   
   const isEditing = Boolean(id);
   
@@ -49,7 +48,6 @@ export function PackagingForm() {
     try {
       setLoading(true);
       const packagingData = await packagingService.getPackagingItem(id);
-      setPackaging(packagingData);
       
       setValue('name', packagingData.name);
       setValue('unitCost', packagingData.unitCost);
