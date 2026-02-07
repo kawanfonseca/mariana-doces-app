@@ -33,7 +33,7 @@ export function Layout() {
     { name: 'Embalagens', href: '/embalagens', icon: Archive },
     { name: 'Gerenciamento de Estoque', href: '/gerenciamento-estoque', icon: Warehouse },
     { name: 'Relatórios de Estoque', href: '/relatorios-estoque', icon: FileText },
-    { name: 'Diário de Vendas', href: '/vendas', icon: ShoppingCart },
+    { name: 'Adicionar Vendas', href: '/vendas', icon: ShoppingCart },
     { name: 'Histórico de Vendas', href: '/historico-vendas', icon: ClipboardList },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
     ...(user?.role === 'ADMIN' ? [{ name: 'Usuários', href: '/usuarios', icon: Users }] : []),

@@ -205,9 +205,9 @@ export function DailySales() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Diário de Vendas</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Adicionar Vendas</h1>
           <p className="text-sm text-gray-600 mt-1">
-            Registre as vendas diárias por canal
+            Registre suas vendas por canal
           </p>
         </div>
         
