@@ -271,7 +271,7 @@ export interface CreateStockMovementRequest {
   ingredientId: string;
   type: 'IN' | 'OUT' | 'ADJUSTMENT';
   quantity: number;
-  reason: string;
+  reason?: string;
   notes?: string;
 }
 

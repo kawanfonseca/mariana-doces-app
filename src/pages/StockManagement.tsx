@@ -26,7 +26,7 @@ const stockMovementSchema = z.object({
   ingredientId: z.string().min(1, 'Ingrediente é obrigatório'),
   type: z.enum(['IN', 'OUT', 'ADJUSTMENT']),
   quantity: z.number().min(0.01, 'Quantidade deve ser maior que zero'),
-  reason: z.string().min(1, 'Motivo é obrigatório'),
+  reason: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -78,6 +78,7 @@ export function StockManagement() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<StockMovementForm>({
     resolver: zodResolver(stockMovementSchema),
     defaultValues: {
@@ -500,6 +501,7 @@ export function StockManagement() {
                             <button
                               onClick={() => {
                                 setSelectedIngredient(ingredient);
+                                setValue('ingredientId', ingredient.id);
                                 setShowMovementForm(true);
                               }}
                               className="p-1 text-gray-400 hover:text-green-600 transition-colors"
@@ -577,21 +579,6 @@ export function StockManagement() {
                 />
                 {errors.quantity && (
                   <p className="mt-1 text-sm text-red-600">{errors.quantity.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Motivo
-                </label>
-                <input
-                  {...register('reason')}
-                  type="text"
-                  className="input"
-                  placeholder="Ex: Compra, Produção, Ajuste..."
-                />
-                {errors.reason && (
-                  <p className="mt-1 text-sm text-red-600">{errors.reason.message}</p>
                 )}
               </div>
 

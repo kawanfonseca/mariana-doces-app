@@ -60,7 +60,7 @@ export const ingredientsService = {
     ingredientId?: string;
   }): Promise<PaginatedResponse<StockMovement>> {
     try {
-      const response = await api.get('/ingredients/stock-movements', { params });
+      const response = await api.get('/stock/movements', { params });
       return response.data;
     } catch (error) {
       throw createApiError(error, 'Erro ao carregar movimentações');
@@ -69,7 +69,7 @@ export const ingredientsService = {
 
   async createStockMovement(data: CreateStockMovementRequest): Promise<StockMovement> {
     try {
-      const response = await api.post('/ingredients/stock-movements', data);
+      const response = await api.post('/stock/movements', data);
       return response.data;
     } catch (error) {
       throw createApiError(error, 'Erro ao registrar movimentação');
