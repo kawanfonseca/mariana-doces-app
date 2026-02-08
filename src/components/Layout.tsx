@@ -41,10 +41,10 @@ export function Layout() {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-cream-100">
       {/* Sidebar */}
       <div className="flex flex-col w-64 bg-white shadow-lg">
-        <div className="flex items-center justify-center h-16 px-4 bg-primary-600">
+        <div className="flex items-center justify-center h-16 px-4 bg-gradient-to-r from-primary-600 to-primary-500">
           <h1 className="text-xl font-bold text-white">Mariana Doces</h1>
         </div>
         
@@ -60,7 +60,7 @@ export function Layout() {
                 className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   isActive
                     ? 'bg-primary-100 text-primary-700'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    : 'text-gray-600 hover:bg-cream-100 hover:text-gray-900'
                 }`}
               >
                 <item.icon className="w-5 h-5 mr-3" />
@@ -71,7 +71,7 @@ export function Layout() {
         </nav>
 
         {/* User info and logout */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-warm-brown-100">
           <div className="flex items-center space-x-3 mb-3">
             <div className="flex items-center justify-center w-8 h-8 bg-primary-100 rounded-full">
               <User className="w-4 h-4 text-primary-600" />
@@ -88,7 +88,7 @@ export function Layout() {
           
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-cream-100 hover:text-gray-900 transition-colors"
           >
             <LogOut className="w-5 h-5 mr-3" />
             Sair
@@ -98,7 +98,7 @@ export function Layout() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-cream-50">
           <div className="container mx-auto px-6 py-8">
             <Outlet />
           </div>
